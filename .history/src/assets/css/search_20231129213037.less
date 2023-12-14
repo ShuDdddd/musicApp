@@ -1,0 +1,63 @@
+.main_search {
+    position: relative;
+    padding: 40px;
+    .el-input {
+        display: block;
+        margin: 0 auto !important;
+        width: 420px !important;
+        height: 40px;
+    }
+    // 歌曲结果模板
+    ul {
+        li {
+            position: relative;
+            display: flex;
+            padding: 10px 10px 8px 18px;
+            height: 23px;
+            line-height: 23px;
+            font-size: 14px;
+        }
+        li:nth-child(2n) {
+          background-color: #f7f7f7;
+        }
+        .song {
+            width: 200px;
+            height: 30px;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .singer {
+            margin-left: 20px;
+        }
+        .operation {
+            position: absolute;
+            right: 15px;
+            width: 80px;
+            height: 23px;
+            z-index: 3;
+        }
+        .icon {
+            width: 1.5em;
+            height: 1.5em;
+            line-height: 23px;
+            vertical-align: 20em;
+            fill: currentColor;
+            overflow: hidden;
+            color: #888777;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #f2f2f2;
+            .operation{
+                display: flex;
+            }
+        }
+        .song:hover {
+            text-decoration: underline;
+        }
+        .icon:hover {
+            color: #666666;
+        }
+    }
+}

@@ -1,0 +1,147 @@
+.el-container {
+    height: 100%;
+}
+.el-header {
+    display: flex;
+    background-color: #F7C3C7;
+    border-bottom: #f18a92 1px solid;
+    color: white;
+    line-height: 60px;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    z-index: 99;
+    .mod_logo {
+        display: flex;
+        height: 60px;
+        width: 200px;
+        font-size: 25px;
+        font-weight: bold;
+        font-family: Arial,serif;
+        img {
+            width: 60px;
+            height: 59px;
+        }
+    }
+    .header_menu {
+        width: 450px;
+        height: 100%;
+        background-color: #F7C3C7;
+        .el-menu-item {
+            font-size: 15px;
+        }
+        .el-menu-item:hover{
+            background: #fab4c7 !important;
+            font-size: 17px;
+        }
+        .triangle {
+           position: absolute;
+           bottom: -1px;
+           left: -8px;
+           margin-left: 50%;
+           border-bottom: 8px solid #CF111F;
+           border-right: 8px solid transparent;
+           border-left: 8px solid transparent;
+           opacity: 0;
+        }
+        .is-active {
+            background-color: #fab4c7;
+            .triangle {
+                opacity: 1;
+            }
+        }
+        /*登录对话框样式*/
+        .el-dialog {
+           min-width: 450px!important;
+        }
+    }
+    .mod_search {
+        position: relative;
+        height: 60px;
+        display: flex;
+        input {
+            margin-left: 0!important;
+        }
+    }
+    // 搜索结果列表样式
+    .search_card {
+        position: absolute;
+        top: 45px;
+        width: 200px;
+        height: 200px;
+        font-size: 10px;
+        z-index: 100 !important;
+        ul {
+            margin-top: -20px;
+            padding-top: 5px;
+        }
+        li {
+            height: 28px;
+            overflow: hidden;
+            line-height: 30px;
+            z-index: 100;
+        }
+    }
+    .mod_user {
+        position: relative;
+        margin-left: 50px;
+        margin-top: 28px;
+        ul {
+            position: absolute;
+            top: 40px;
+            left: -36px;
+            width: 120px;
+            height: 90px;
+            visibility: hidden;
+            background-color: #2B2B2B;
+            li {
+                padding-left: 25px;
+                height: 30px;
+                cursor: pointer;
+                font-size: 13px;
+                line-height: 30px;
+                span {
+                    display: inline-block;
+                    margin-left: 5px;
+                    width: 15px;
+                    height: 15px;
+                    border-radius: 100%;
+                    background-color: #C20C0C;
+                    line-height: 15px;
+                    text-align: center;
+                }
+            }
+            li:hover {
+                background-color: #353535;
+            }
+        }
+    }
+    .mod_user:hover {
+        ul {
+            visibility: visible;
+        }
+        /deep/ .el-badge .el-badge__content {
+            visibility: hidden;
+        }
+    }
+    .login_btn {
+        margin-left: 50px;
+    }
+}
+.el-main {
+    padding: 0!important;
+    .m_footer{
+        width: 1500px;
+        height: 100px;
+        border-top: 1px solid #d6d6d6;
+        background-color: #F5F5F5;
+    }
+}
+.el-main::-webkit-scrollbar {
+    width: 0;
+    height: 100%;
+}
+.el-footer{
+    background-color: #F7C3C7;
+    border-top: #f18a92 1px solid;
+}

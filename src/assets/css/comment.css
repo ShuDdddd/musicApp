@@ -1,0 +1,85 @@
+.comment_hd {
+  height: 35px;
+  border-bottom: 2px solid #af101d;
+  line-height: 35px;
+  font-size: 15px;
+}
+.comment_hd h3,
+.comment_hd span {
+  float: left;
+  font-weight: normal;
+}
+.comment_hd h3 {
+  font-size: 20px;
+}
+.comment_hd span {
+  margin-left: 20px;
+  font-size: 12px;
+  line-height: 38px;
+}
+.publish_com {
+  position: relative;
+  margin-top: 20px;
+  padding-left: 64px;
+}
+.publish_com .pub_com_hd {
+  position: absolute;
+  left: 0;
+}
+.publish_com .pub_com_hd img {
+  width: 50px;
+  height: 50px;
+}
+.com_quill {
+  position: relative;
+  margin-bottom: 40px;
+}
+.mod_com {
+  font-size: 12px;
+}
+.mod_com li {
+  padding: 10px 0;
+  border-top: 1px solid #B3B3B3;
+}
+.mod_com li img,
+.mod_com li .com_info {
+  float: left;
+}
+.mod_com li:hover .del_com_btn {
+  visibility: visible;
+}
+.mod_com img {
+  width: 50px;
+  height: 50px;
+}
+.mod_com h3 {
+  margin: 5px 0;
+  font-size: 11px;
+  text-align: left;
+}
+.mod_com .com_info {
+  width: 580px;
+  margin-left: 10px;
+}
+.mod_com .com_info span {
+  margin-left: 5px;
+}
+.mod_com .com_operation {
+  margin-top: 15px;
+}
+.mod_com .com_operation a {
+  padding-right: 5px;
+  margin-right: 3px;
+  border-right: 1px solid #9999A6;
+}
+.mod_com .com_operation .del_com_btn {
+  margin-right: 20px;
+  cursor: pointer;
+  visibility: hidden;
+}
+.mod_com .com_reply {
+  display: none;
+  margin-top: 10px;
+  background-color: #F8F8F8;
+}
+/*# sourceMappingURL=comment.css.map */

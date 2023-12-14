@@ -1,0 +1,77 @@
+.el-container {
+    height: 100%;
+}
+.el-header {
+    display: flex;
+    background-color: #F7C3C7;
+    border-bottom: #f18a92 1px solid;
+    color: white;
+    line-height: 60px;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    z-index: 99;
+    .mod_logo {
+        display: flex;
+        height: 60px;
+        width: 200px;
+        font-size: 25px;
+        font-weight: bold;
+        font-family: Arial,serif;
+        img {
+            width: 60px;
+            height: 59px;
+        }
+    }
+    .header_menu {
+        width: 450px;
+        height: 100%;
+        background-color: #F7C3C7;
+        .el-menu-item {
+            font-size: 15px;
+        }
+        .el-menu-item:hover{
+            background: #fab4c7 !important;
+            font-size: 17px;
+        }
+        .triangle {
+           position: absolute;
+           bottom: -1px;
+           left: -8px;
+           margin-left: 50%;
+           border-bottom: 8px solid #CF111F;
+           border-right: 8px solid transparent;
+           border-left: 8px solid transparent;
+           opacity: 0;
+        }
+        .is-active {
+            background-color: #fab4c7;
+            .triangle {
+                opacity: 1;
+            }
+        }
+        /*登录对话框样式*/
+        .el-dialog {
+           min-width: 450px!important;
+        }
+    }
+    /deep/ .mod_search {
+        width: 400px;
+        height: 60px;
+        display: flex;
+        input {
+            margin-left: 0!important;
+          }
+    }
+}
+.el-main {
+    padding: 0!important;
+}
+.el-main::-webkit-scrollbar {
+    width: 0;
+    height: 100%;
+}
+.el-footer{
+    background-color: #F7C3C7;
+    border-top: #f18a92 1px solid;
+}

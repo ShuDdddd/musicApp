@@ -1,0 +1,255 @@
+.main_search {
+  position: relative;
+  padding: 40px;
+}
+.main_search .search_mod {
+  display: flex;
+  margin: 0 auto !important;
+  width: 420px !important;
+  height: 40px;
+}
+.main_search .search_mod .el-input input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.main_search .search_mod button {
+  width: 80px;
+  height: 40px;
+  background-color: #fff;
+  border: 1px solid #DCDFE6;
+  border-left: 0px;
+  border-top-right-radius: 5%;
+  border-bottom-right-radius: 5%;
+}
+.main_search .search_mod button:hover {
+  border: 1px solid #C0C4CC;
+}
+.main_search .result_box {
+  margin: 25px auto;
+  width: 900px;
+}
+.main_search .result_box .tip {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 12px;
+}
+.main_search .result_box .el-tabs__item {
+  color: #999;
+}
+.main_search .result_box .el-tabs__item.is-active {
+  color: #000;
+}
+.main_search .result_box ul {
+  margin-top: 10px;
+}
+.main_search .dq_ul li {
+  position: relative;
+  display: flex;
+  padding: 10px 10px 8px 18px;
+  height: 23px;
+  line-height: 23px;
+  font-size: 14px;
+}
+.main_search .dq_ul li:nth-child(2n) {
+  background-color: #f7f7f7;
+}
+.main_search .dq_ul .song {
+  width: 300px;
+  height: 30px;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+}
+.main_search .dq_ul .singer {
+  margin-left: 20px;
+  width: 130px;
+  cursor: pointer;
+}
+.main_search .dq_ul .album {
+  margin-left: 20px;
+  width: 200px;
+  cursor: pointer;
+}
+.main_search .dq_ul .time {
+  margin-left: 20px;
+}
+.main_search .dq_ul .operation {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  right: 15px;
+  width: 90px;
+  height: 23px;
+  z-index: 3;
+}
+.main_search .dq_ul .operation .icon {
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 23px;
+  vertical-align: 20em;
+  fill: currentColor;
+  overflow: hidden;
+  color: #888777;
+  cursor: pointer;
+}
+.main_search .dq_ul li:hover {
+  background-color: #f2f2f2;
+}
+.main_search .dq_ul li:hover .operation {
+  display: flex;
+}
+.main_search .dq_ul .song:hover,
+.main_search .dq_ul .singer:hover,
+.main_search .dq_ul .album:hover {
+  text-decoration: underline;
+}
+.main_search .dq_ul .icon:hover {
+  color: #666666;
+}
+.main_search .gs_ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+.main_search .gs_ul li {
+  padding-bottom: 30px;
+  margin-right: 24px;
+  width: 130px;
+  height: 154px;
+}
+.main_search .gs_ul li:nth-child(6n) {
+  margin-right: 0;
+}
+.main_search .gs_ul .el-image {
+  width: 130px;
+  height: 130px;
+}
+.main_search .gs_ul .name {
+  font-size: 12px;
+  line-height: 2;
+  cursor: pointer;
+}
+.main_search .gs_ul .name:hover {
+  text-decoration: underline;
+}
+.main_search .gd_ul {
+  /**悬浮，通用样式**/
+}
+.main_search .gd_ul li {
+  position: relative;
+  display: flex;
+  padding: 10px 10px 8px 18px;
+  height: 62px;
+  line-height: 62px;
+  font-size: 14px;
+}
+.main_search .gd_ul li:nth-child(2n) {
+  background-color: #f7f7f7;
+}
+.main_search .gd_ul .icon {
+  font-size: 20px!important;
+  line-height: 72px;
+  vertical-align: -0.3em;
+  opacity: 0.5;
+}
+.main_search .gd_ul .img_box {
+  padding: 5px 10px;
+}
+.main_search .gd_ul .el-image {
+  width: 50px;
+  height: 50px;
+}
+.main_search .gd_ul .title {
+  padding: 5px 0px;
+  width: 280px;
+  height: 50px;
+}
+.main_search .gd_ul .trackcount {
+  padding: 5px 10px;
+  width: 50px;
+  height: 50px;
+}
+.main_search .gd_ul .user {
+  padding: 5px 20px;
+  width: 150px;
+  height: 50px;
+}
+.main_search .gd_ul .bookcount,
+.main_search .gd_ul .playcount {
+  padding: 5px 10px;
+  width: 90px;
+  height: 50px;
+}
+.main_search .gd_ul .icon:hover {
+  opacity: 1;
+}
+.main_search .gd_ul .title:hover,
+.main_search .gd_ul .user span:hover {
+  text-decoration: underline;
+}
+.main_search .gd_ul .title,
+.main_search .gd_ul .user {
+  cursor: pointer;
+}
+.main_search .gd_ul .trackcount,
+.main_search .gd_ul .bookcount,
+.main_search .gd_ul .playcount {
+  color: #999;
+}
+.main_search .yh_ul li {
+  position: relative;
+  display: flex;
+  padding: 10px 10px 8px 18px;
+  height: 62px;
+  font-size: 14px;
+}
+.main_search .yh_ul li:nth-child(2n) {
+  background-color: #f7f7f7;
+}
+.main_search .yh_ul .el-image {
+  margin: 5px 10px;
+  width: 50px;
+  height: 50px;
+}
+.main_search .yh_ul .info {
+  width: 460px;
+  height: 50px;
+}
+.main_search .yh_ul .name {
+  margin-top: 10px;
+  height: 18px;
+}
+.main_search .yh_ul .intro {
+  margin-top: 5px;
+  height: 18px;
+}
+.main_search .yh_ul button {
+  margin: auto 20px;
+  width: 64px;
+  height: 27px;
+  border-radius: 8px;
+  border: solid #ddd 1px;
+  background-color: #fff;
+}
+.main_search .yh_ul .playlistcount,
+.main_search .yh_ul .followeds {
+  padding: 5px 10px;
+  width: 100px;
+  height: 50px;
+  line-height: 62px;
+}
+.main_search .pagination {
+  margin: 20px auto;
+  width: 560px;
+}
+.main_search .pagination .btn-prev,
+.main_search .pagination .btn-next {
+  margin-top: 10px!important;
+  background-color: #fff !important;
+}
+.main_search .pagination .el-pager .number,
+.main_search .pagination .el-pager .more {
+  background-color: #fff;
+}
+.main_search .pagination .el-pager .active {
+  background-color: #F08080 !important;
+}

@@ -1,0 +1,101 @@
+.main_search {
+    position: relative;
+    padding: 40px;
+    .result_box {
+        margin: 25px auto;
+        width: 900px;
+        background-color: #888777;
+        .tip {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 12px;
+        }
+    }
+    .el-input {
+        display: block;
+        margin: 0 auto !important;
+        width: 420px !important;
+        height: 40px;
+    }
+    // 歌曲搜索结果模板
+    .dq_ul {
+        li {
+            position: relative;
+            display: flex;
+            padding: 10px 10px 8px 18px;
+            height: 23px;
+            line-height: 23px;
+            font-size: 14px;
+        }
+        li:nth-child(2n) {
+          background-color: #f7f7f7;
+        }
+        .song {
+            width: 320px;
+            height: 30px;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .singer {
+            margin-left: 20px;
+            width: 130px;
+            cursor: pointer;
+        }
+        .album {
+            margin-left: 20px;
+            width: 200px;
+            cursor: pointer;
+        }
+        .time {
+            margin-left: 50px;
+        }
+        .operation {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            right: 15px;
+            width: 90px;
+            height: 23px;
+            z-index: 3;
+            .icon {
+                width: 1.5em;
+                height: 1.5em;
+                line-height: 23px;
+                vertical-align: 20em;
+                fill: currentColor;
+                overflow: hidden;
+                color: #888777;
+                cursor: pointer;
+            }
+        }
+        li:hover {
+            background-color: #f2f2f2;
+            .operation{
+                display: flex;
+            }
+        }
+        .song:hover,.singer:hover, .album:hover{
+            text-decoration: underline;
+        }
+        .icon:hover {
+            color: #666666;
+        }
+    }
+    // 歌手搜索结果模板
+    .gs_ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            padding-bottom: 30px;
+            margin-right: 24px;
+            width: 130px;
+            height: 154px;
+            background-color: aqua;
+        }
+        .el-image {
+            width: 130px;
+            height: 130px;
+        }
+    }
+}

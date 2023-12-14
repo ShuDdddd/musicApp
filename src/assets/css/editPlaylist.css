@@ -1,0 +1,48 @@
+.edit_box {
+  width: 640px;
+  padding: 35px;
+  border-right: 1px solid #d6d6d6;
+}
+.el-breadcrumb {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #CBCBCB;
+}
+.el-breadcrumb .el-breadcrumb__inner {
+  font-weight: 400;
+  color: #0C73C2 !important;
+}
+.el-breadcrumb .el-breadcrumb-item a {
+  cursor: pointer;
+}
+.img_mod {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  background-color: #da6565;
+}
+.img_mod img {
+  width: 100%;
+  height: 100%;
+}
+.img_mod .img_btn,
+.img_mod .img_btn_cover {
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  bottom: 0;
+  left: 0;
+}
+.img_mod .img_btn {
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  font-size: 12px;
+  color: white;
+  z-index: 8;
+}
+.img_mod .img_btn_cover {
+  background-color: #8e8e8e;
+  opacity: 0.7;
+}
+/*# sourceMappingURL=editPlaylist.css.map */

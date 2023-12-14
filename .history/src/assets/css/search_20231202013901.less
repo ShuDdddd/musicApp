@@ -1,0 +1,233 @@
+.main_search {
+    position: relative;
+    padding: 40px;
+    .result_box {
+        margin: 25px auto;
+        width: 900px;
+        .tip {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 12px;
+        }
+        ul {
+            margin-top: 10px;
+        }
+    }
+    .el-input {
+        display: block;
+        margin: 0 auto !important;
+        width: 420px !important;
+        height: 40px;
+    }
+    // 歌曲搜索结果模板
+    .dq_ul {
+        li {
+            position: relative;
+            display: flex;
+            padding: 10px 10px 8px 18px;
+            height: 23px;
+            line-height: 23px;
+            font-size: 14px;
+        }
+        li:nth-child(2n) {
+          background-color: #f7f7f7;
+        }
+        .song {
+            width: 300px;
+            height: 30px;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .singer {
+            margin-left: 20px;
+            width: 130px;
+            cursor: pointer;
+        }
+        .album {
+            margin-left: 20px;
+            width: 200px;
+            cursor: pointer;
+        }
+        .time {
+            margin-left: 20px;
+        }
+        .operation {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            right: 15px;
+            width: 90px;
+            height: 23px;
+            z-index: 3;
+            .icon {
+                width: 1.5em;
+                height: 1.5em;
+                line-height: 23px;
+                vertical-align: 20em;
+                fill: currentColor;
+                overflow: hidden;
+                color: #888777;
+                cursor: pointer;
+            }
+        }
+        li:hover {
+            background-color: #f2f2f2;
+            .operation{
+                display: flex;
+            }
+        }
+        .song:hover,.singer:hover, .album:hover{
+            text-decoration: underline;
+        }
+        .icon:hover {
+            color: #666666;
+        }
+    }
+    // 歌手搜索结果模板
+    .gs_ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+            padding-bottom: 30px;
+            margin-right: 24px;
+            width: 130px;
+            height: 154px;
+        }
+        li:nth-child(6n) {
+            margin-right: 0;
+        }
+        .el-image {
+            width: 130px;
+            height: 130px;
+        }
+        .name {
+            font-size: 12px;
+            line-height: 2;
+            cursor: pointer;
+        }
+        .name:hover {
+            text-decoration: underline;
+        }
+    }
+    // 歌单搜索结果模板
+    .gd_ul {
+        li {
+            position: relative;
+            display: flex;
+            padding: 10px 10px 8px 18px;
+            height: 62px;
+            line-height: 62px;
+            font-size: 14px;
+        }
+        li:nth-child(2n) {
+          background-color: #f7f7f7;
+        }
+        .icon {
+            font-size: 20px!important;
+            line-height: 72px;
+            vertical-align: -0.3em;
+            opacity: 0.5;
+        }
+        .img_box {
+            padding: 5px 10px;
+        }
+        .el-image {
+            width: 50px;
+            height: 50px;
+        }
+        .title {
+            padding: 5px 0px;
+            width: 280px;
+            height: 50px;
+        }
+        .trackcount {
+            padding: 5px 10px;
+            width: 50px;
+            height: 50px;
+        }
+        .user {
+            padding: 5px 20px;
+            width: 150px;
+            height: 50px;
+        }
+        .bookcount, .playcount{
+            padding: 5px 10px;
+            width: 90px;
+            height: 50px;
+        }
+        /**悬浮，通用样式**/
+        .icon:hover {
+            opacity: 1;
+        }
+        .title:hover, .user span:hover {
+            text-decoration: underline;
+        }
+        .title, .user {
+            cursor: pointer;
+        }
+        .trackcount, .bookcount, .playcount {
+            color: #999;
+        }
+    }
+    // 用户搜索结果模板
+    .yh_ul {
+        li {
+            position: relative;
+            display: flex;
+            padding: 10px 10px 8px 18px;
+            height: 62px;
+            font-size: 14px;
+        }
+        li:nth-child(2n) {
+          background-color: #f7f7f7;
+        }
+        .el-image {
+            margin: 5px 10px;
+            width: 50px;
+            height: 50px;
+        }
+        .info {
+            width: 460px;
+            height: 50px;
+        }
+        .name {
+            margin-top: 10px;
+            height: 18px;
+        }
+        .intro {
+            margin-top: 5px;
+            height: 18px;
+        }
+        button {
+            margin: auto 20px;
+            width: 64px;
+            height: 27px;
+            border-radius: 8px;
+            border: solid #ddd 1px;
+            background-color: #fff;
+        }
+        .playlistcount, .followeds {
+            padding: 5px 10px;
+            width: 100px;
+            height: 50px;
+            line-height: 62px;
+        }
+    }
+    // 分页样式
+    .pagination {
+        margin: 20px auto;
+        width: 560px;
+        .btn-prev, .btn-next {
+            margin-top: 10px!important;
+        }
+        .el-pager {
+            .number {
+                background-color: #fff;
+            }
+            .active {
+                background-color: #D90E16;
+            }
+        }
+    }
+}

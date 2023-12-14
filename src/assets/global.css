@@ -1,0 +1,76 @@
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #F5F5F5;
+}
+html, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, header, menu, section, p, input, td, th {
+  padding: 0;
+  margin: 0;
+}
+i, .icon, a {
+  cursor: pointer;
+}
+ul {
+  list-style: none;
+}
+.w {
+  position: absolute;
+  left: 50%;
+  margin-left: -500px;
+  width: 1000px;
+}
+.fl_r {
+  display: block;
+  float: right;
+}
+.fl_l {
+  display: block;
+  float: left;
+}
+.cf::after {
+  display: block;
+  content: '';
+  visibility: hidden;
+  clear: both;
+}
+#app {
+  min-width: 1000px;
+}
+.opa_7 {
+  opacity: 70%;
+}
+.opa_8 {
+  opacity: 80%;
+}
+.opa_7:hover {
+  opacity: 100%;
+}
+.opa_8:hover {
+  opacity: 100%;
+}
+.blue {
+  color: #0c73c2;
+}
+.el-button {
+  margin: auto 10px;
+}
+.el-tabs__item {
+  color: whitesmoke;
+}
+.el-carousel__indicators--horizontal {
+  width: 400px;
+  margin-bottom: 5px;
+}
+.el-menu--horizontal>.el-menu-item.is-active{
+  border-bottom: 0;
+}
+.el-menu.el-menu--horizontal {
+  border-bottom: 0;
+}
+.mainBox {
+  width: 100%;
+  background-color: whitesmoke;
+}

@@ -1,0 +1,31 @@
+.menu_box {
+  height: 35px;
+  width: 100%;
+  background-color: #cf111f;
+  border-bottom: #A40011 1px solid;
+  border-top: #A40011 1px solid;
+}
+.menu_box .discover_menu {
+  background-color: #cf111f;
+  margin: 0 auto;
+  width: 600px;
+  height: 35px;
+  z-index: 0;
+}
+.menu_box .discover_menu .menu_item {
+  line-height: 35px;
+  height: 35px;
+  margin: 0 30px;
+}
+.menu_box .discover_menu .el-menu-item:hover {
+  background-color: #af101d !important;
+}
+.menu_box .discover_menu .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus,
+.menu_box .discover_menu .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover,
+.menu_box .discover_menu .el-menu--horizontal > .el-submenu .el-submenu__title:hover {
+  background-color: #af101d;
+}
+.menu_box .discover_menu .el-card {
+  width: 1000px;
+  height: 200px;
+}

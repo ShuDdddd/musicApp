@@ -1,0 +1,29 @@
+.menu_box {
+    height: 35px;
+    width: 100%;
+    background-color: #cf111f;
+    border-bottom: #A40011 1px solid;
+    border-top: #A40011 1px solid;
+    .discover_menu {
+        background-color: #cf111f;
+        margin: 0 auto;
+        width: 600px;
+        height: 35px;
+        z-index: 0;
+        .menu_item {
+            line-height: 35px;
+            height: 35px;
+            margin: 0 30px;
+        }
+        .el-menu-item:hover {
+            background-color: #af101d !important;
+        }
+        .el-menu--horizontal>.el-menu-item:not(.is-disabled):focus, .el-menu--horizontal>.el-menu-item:not(.is-disabled):hover, .el-menu--horizontal>.el-submenu .el-submenu__title:hover {
+          background-color: #af101d;
+        }
+        .el-card {
+          width: 1000px;
+          height: 200px;
+        }
+    }
+}
