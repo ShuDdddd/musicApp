@@ -11,7 +11,7 @@
       </div>
       <!--暂停播放模块-->
       <div class="stop">
-        <audio id="myAudio" :src="orderList[current].musicUrl"></audio>
+        <audio id="myAudio" :src="currentSong.musicUrl"></audio>
         <svg class="icon stop" aria-hidden="true"
              v-if="playStatus"
              @click="stop">
@@ -35,14 +35,14 @@
     </div>
     <div class="message">
       <div class="img_box">
-        <img :src="orderList[current].picUrl ? orderList[current].picUrl : '@/assets/img/2.png'"
+        <img :src="currentSong.picUrl ? currentSong.picUrl : '@/assets/img/2.png'"
              @click="toSong"
              :onerror='defaultImg'>
       </div>
       <div class="song_box">
         <div class="song_info">
-          <a class="song_name">{{orderList[current].name}}</a>
-          <a class="singer">{{orderList[current].singer}}</a>
+          <a class="song_name">{{currentSong.name}}</a>
+          <a class="singer">{{currentSong.singer}}</a>
         </div>
           <div class="progress_box">
           <div class="progress"
@@ -52,7 +52,7 @@
           <div class="circle"
                @mousemove="moveCircle($event)"
                id="circle"></div>
-          <div class="show_time">{{currentTime | timeFormat}}/{{ orderList[current].totalTime | timeFormat}}</div>
+          <div class="show_time">{{currentTime | timeFormat}}/{{ currentSong.totalTime | timeFormat}}</div>
         </div>
       </div>
     </div>
@@ -65,7 +65,8 @@
           <el-slider vertical
                      height="100px"
                      @change="volumeHandle"
-                     v-model="soundVolume"></el-slider>
+                     v-model="soundVolume">
+          </el-slider>
       </div>
     </div>
     <div class="music_list">
@@ -79,7 +80,7 @@
            v-click-outside>
         <div class="card_hd cf">
           <span class="fl_l" style="font-weight: bold">播放列表</span>
-          <a class="fl_r opa_7">清空</a>
+          <a class="fl_r opa_7" @click="clearAll">清空</a>
         </div>
         <div v-for="(item, index) in orderList" :key="index"
              @click="changeMusic(item.id)"
@@ -101,8 +102,8 @@ export default {
     this.$bus.$on('playMusic', id => {
       this.changeMusic(id)
     })
-    this.$bus.$on('add', arr => {
-      this.addMusic(arr)
+    this.$bus.$on('add', async arr => {
+      await this.addMusic(arr)
     })
   },
   mounted () {
@@ -116,7 +117,7 @@ export default {
         this.listVisible = true
       }
     })
-    this.soundVolume = this.audio.volume
+    this.audio.volume = this.soundVolume / 100
   },
   data () {
     return {
@@ -131,10 +132,10 @@ export default {
       circleIfMove: false,
       playStatus: false, // 控制音乐播放暂停图标 false表示当前处于暂停状态
       currentTime: 0,
-      musicList: [],
+      currentSong: {}, // 保存当前播放音乐信息
       listMap: [],
-      orderList: [{}], // 有序的音乐播放列表
-      randomList: [], // 随机播放的音乐列表
+      orderList: [], // 有序的播放列表
+      randomList: [], // 随机的播放列表
       current: 0, // 当前播放音乐的序列
       soundVolume: 50, // 音量
       sliderVisible: false
@@ -160,19 +161,12 @@ export default {
       }
       return mes
     },
-    // 获取音乐时长
-    // getTotalTime () {
-    //   if (!this.orderList[this.current].musicUrl) {
-    //     this.totalTime = 0
-    //     return
-    //   }
-    //   setTimeout(() => { // radio的数据好像只能等一会才拿到，直接拿是NaN
-    //     this.totalTime = this.audio.duration
-    //   }, 300)
-    // },
     // 播放音乐
     play () {
-      if (!this.orderList[this.current].musicUrl) {
+      if (!this.currentSong.musicUrl) {
+        if (this.orderList.length === 0) {
+          return
+        }
         setTimeout(() => {
           this.playStatus = true
           this.preOrNext(1)
@@ -183,8 +177,8 @@ export default {
       this.audio.play()
       this.progressTimer = window.setInterval(() => {
         this.currentTime = this.audio.currentTime
-        this.circleLeft = Math.round(this.currentTime / this.orderList[this.current].totalTime * 400) - 8
-        this.progressGo.css('width', percentage(this.currentTime, this.orderList[this.current].totalTime) + '%')
+        this.circleLeft = Math.round(this.currentTime / this.currentSong.totalTime * 400) - 8
+        this.progressGo.css('width', percentage(this.currentTime, this.currentSong.totalTime) + '%')
         this.circle.css('left', this.circleLeft + 'px')
         // 单曲播放
         // if (this.audio.ended) {
@@ -194,14 +188,7 @@ export default {
         if (this.audio.ended) {
           this.preOrNext(1)
         }
-      }, 500)
-    },
-    // 跳转到音乐界面
-    toSong () {
-      this.$router.push({
-        name: 'song',
-        params: { id: this.orderList[this.current].id }
-      })
+      }, 300)
     },
     // 音乐暂停
     stop () {
@@ -209,14 +196,43 @@ export default {
       clearInterval(this.progressTimer)
       this.audio.pause()
     },
+    // 跳转到音乐界面
+    toSong () {
+      this.$router.push({
+        name: 'song',
+        params: { id: this.currentSong.id }
+      })
+    },
+    // 播放列表添加音乐
+    async addMusic (arr) {
+      // if (this.orderList.length === 1 && this.orderList[0].id == null) {
+      //   this.orderList.shift()
+      // }
+      // 目前vue版本不支持map迭代 map存id和下标 arr存歌曲信息
+      for (let i = 0; i < arr.length; i++) {
+        const length = this.listMap.size ? this.listMap.size : 0
+        if (this.listMap.has(arr[i])) continue
+        this.listMap.set(arr[i], length)
+        const mes = await this.getMusicMes(arr[i])
+        this.orderList.push(mes)
+      }
+    },
+    // 清空播放列表
+    clearAll () {
+      this.orderList = []
+      this.listMap.clear()
+      this.current = 0
+    },
     // 切换上/下一首，播放状态下自动播放，暂停状态下也随之暂停
     async preOrNext (num) {
+      if (this.orderList.length === 0) return
       if (this.current < -1) {
         return
       }
       this.current += num
       if (this.current >= this.orderList.length) this.current = 0
       else if (this.current < 0) this.current = this.orderList.length - 1
+      this.currentSong = this.orderList[this.current]
       // 修改进度条为0
       this.audio.currentTime = 0
       this.currentTime = 0
@@ -239,17 +255,11 @@ export default {
         await this.addMusic([id])
       }
       this.current = this.listMap.get(id)
+      this.currentSong = this.orderList[this.current]
       // 查看url是否存在
-      if (!this.orderList[this.current].musicUrl) {
+      if (!this.currentSong.musicUrl) {
         this.$message.error('获取歌曲播放地址失败')
       }
-      // if (this.playStatus) { // 如果此时有音乐播放 停止播放并改变图标
-      //   this.playStatus = false
-      //   this.clearHandler()
-      //   this.audio.pause()
-      //   this.stop()
-      //   // this.circle.css('left', '-8px')
-      // }
       // 进度条修改
       this.audio.currentTime = 0
       this.currentTime = 0
@@ -258,26 +268,9 @@ export default {
       await this.stop()
       this.play()
     },
-    // 音乐列表添加音乐
-    async addMusic (arr) {
-      if (this.orderList.length === 1 && this.orderList[0].id == null) {
-        this.orderList.shift()
-      }
-      // 目前vue版本不支持map迭代 map存id和下标 arr存歌曲信息
-      for (let i = 0; i < arr.length; i++) {
-        const length = this.listMap.size ? this.listMap.size : 0
-        if (this.listMap.has(arr[i])) continue
-        this.listMap.set(arr[i], length)
-        const mes = await this.getMusicMes(arr[i])
-        this.orderList.push(mes)
-      }
-    },
-    // clearHandler () { // 不单独写计时器停不下来，不知道为啥
-    //   window.clearInterval(this.progressTimer)
-    // },
     // 进度条小球
     moveCircle (e) {
-      if (!this.orderList[this.current].totalTime || !e.buttons) {
+      if (!this.currentSong.totalTime || !e.buttons) {
         return
       }
       e.preventDefault() // 阻止拖动时禁用图标的出现
@@ -285,19 +278,19 @@ export default {
       if (x >= -8 && x <= 392) {
         this.circle.css('left', x + 'px')
         this.progressGo.css('width', percentage(x + 8, 400) + '%')
-        this.currentTime = Math.round((x + 8) / 400 * this.orderList[this.current].totalTime)
+        this.currentTime = Math.round((x + 8) / 400 * this.currentSong.totalTime)
         this.audio.currentTime = this.currentTime
       }
     },
     // 点击进度条小球移动到该位置
     downProgress (e) {
-      if (!this.orderList[this.current].totalTime) {
+      if (!this.currentSong.totalTime) {
         return
       }
       const x = e.clientX - getElementX(this.showProgress) - 8 // 小球相对x坐标
       this.circle.css('left', x + 'px')
       this.progressGo.css('width', percentage(x + 8, 400) + '%')
-      this.currentTime = Math.round((x + 8) / 400 * this.orderList[this.current].totalTime)
+      this.currentTime = Math.round((x + 8) / 400 * this.currentSong.totalTime)
       this.audio.currentTime = this.currentTime
     },
     volumeHandle (e) {

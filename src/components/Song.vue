@@ -7,7 +7,7 @@
             <div class="circle">
               <el-image class="al_img"
                         style="width: 150px; height: 150px;top: 28px; left: 28px;
-            position: absolute; z-index: 20; border-radius: 50%"
+                               position: absolute; z-index: 20; border-radius: 50%"
                         :src="songMes.al.picUrl">
                       </el-image>
             </div>
@@ -36,7 +36,7 @@
                   <el-button icon="el-icon-plus" class="smallBtn"></el-button>
                 </el-button-group>
               </div>
-              <el-button class="operationBtn" @click="collection(988756367)" icon="el-icon-folder-add">收藏</el-button>
+              <el-button class="operationBtn" @click="showColDia()" icon="el-icon-folder-add">收藏</el-button>
               <el-button class="operationBtn" icon="el-icon-link">分享</el-button>
               <el-button class="operationBtn" icon="el-icon-download">下载</el-button>
               <el-button class="operationBtn" icon="el-icon-s-comment">({{comments.length}})</el-button>
@@ -116,12 +116,16 @@
       </div>
       <div class="relative_box fl_l"></div>
     </div>
+    <CollectSongDia ref="collectSongDia" :songId="id"/>
   </div>
 </template>
 
 <script>
-
+import CollectSongDia from './commons/CollectSongDia'
 export default {
+  components: {
+    CollectSongDia
+  },
   data () {
     return {
       id: '',
@@ -134,6 +138,7 @@ export default {
       myComment: '',
       comments: [],
       hotComments: []
+      // colDiaVisible: false
     }
   },
   methods: {
@@ -143,7 +148,6 @@ export default {
         this.$message.error('获取歌曲失败 请刷新')
       }
       this.songMes = res.songs[0]
-      console.log(res)
     },
     async getSongWord () {
       const { data: res } = await this.$http.get('/lyric', { params: { id: this.id } })
@@ -156,15 +160,21 @@ export default {
       this.songWord = new Map()
       const arr = str.split('\n')
       for (const item of arr) {
-        const str1 = item.substr(1, 9)
-        const str2 = item.substr(11)
-        this.songWord.set(str1, str2)
+        for (let i = 0; i < item.length; i++) {
+          if (item[i] === ']') {
+            const str1 = item.substr(1, i - 1)
+            const str2 = item.substr(i + 1)
+            this.songWord.set(str1, str2)
+            break
+          }
+        }
       }
     },
     showWord () {
       this.expand = this.songWord.size
       this.hidden = false
     },
+    // 收起歌词
     hiddenWord () {
       this.expand = 15
       this.hidden = true
@@ -178,17 +188,20 @@ export default {
       this.hotComments = res.hotComments
     },
     // 收藏歌曲
-    async collection (pid) {
-      const params = {
-        pid: pid,
-        op: 'add',
-        tracks: this.id
-      }
-      const { data: res } = await this.$http.get('/playlist/tracks', { params: params })
-      if (res.code !== 200) {
-        this.$message.error('添加成功')
-      }
-      console.log(res)
+    async showColDia () {
+      // 显示收藏夹面板 选择收藏夹 添加
+      // const params = {
+      //   pid: pid,
+      //   op: 'add',
+      //   id: this.id
+      // }
+      // const { data: res } = await this.$http.get('/playlist/tracks', { params: params })
+      // if (res.code !== 200) {
+      //   this.$message.error('添加成功')
+      // }
+      console.log(this.$refs.collectSongDia)
+      this.$refs.collectSongDia.getMyPlaylist()
+      this.$refs.collectSongDia.dialogVisible = true
     },
     // 播放歌曲
     palyMusic () {

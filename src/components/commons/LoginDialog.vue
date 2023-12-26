@@ -239,7 +239,7 @@ export default {
     switchPswCap () {
       this.ifCaptcha = !this.ifCaptcha``
     },
-    // 手机账号登录
+    // 登录
     async telLogin () {
       if (!this.telLoginForm.phone) return this.showWarning('手机号不能为空')
       if (!(this.telLoginForm.password || this.telLoginForm.captcha)) {

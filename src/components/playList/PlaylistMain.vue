@@ -4,40 +4,45 @@
           <div class="list_cover">
             <el-image style="width: 194px; height: 194px; margin: 3px"
                       fit="cover"
-                      :src="playListInt.coverImgUrl">
+                      :src="playListMes.coverImgUrl">
             </el-image>
           </div>
           <div class="list_info">
             <div class="list_name">
               <el-tag type="danger" size="small"
                       class="icon_gedan">歌单</el-tag>
-              <h2>{{playListInt.name}}</h2>
+              <h2>{{playListMes.name}}</h2>
             </div>
             <div class="auth_info">
               <el-image style="width: 30px; height: 30px; margin: 3px"
                         fit="cover"
-                        :src="playListInt.creator.avatarUrl">
+                        :src="playListMes.creator.avatarUrl">
+                        <div slot="error" class="image-slot">
+                          <i class="el-icon-picture-outline"></i>
+                        </div>
               </el-image>
-              <a> &nbsp;{{playListInt.creator.nickname}}</a>
-              <a>&nbsp;{{playListInt.createTime|dateFormat}}创建</a>
+              <a> &nbsp;{{playListMes.creator.nickname}}</a>
+              <a>&nbsp;{{playListMes.createTime|dateFormat}}创建</a>
             </div>
             <div class="operation">
               <el-button-group>
-                <el-button id="operationBtn" class="el-icon-video-play">
+                <el-button @click="playAll"
+                            id="operationBtn"
+                            class="el-icon-video-play">
                   播放
                 </el-button>
-                <el-button icon="el-icon-plus" class="smallBtn" @click="plusList()"></el-button>
+                <el-button icon="el-icon-plus" class="smallBtn" @click="plusAll"></el-button>
               </el-button-group>
-              <el-button icon="el-icon-folder-add">({{playListInt.subscribedCount | millionFormat}})</el-button>
-              <el-button icon="el-icon-link">({{playListInt.shareCount | millionFormat}})</el-button>
+              <el-button icon="el-icon-folder-add">({{playListMes.subscribedCount | millionFormat}})</el-button>
+              <el-button icon="el-icon-link">({{dynamicMes.shareCount | millionFormat}})</el-button>
               <el-button icon="el-icon-download">下载</el-button>
-              <el-button icon="el-icon-s-comment">评论({{playListInt.commentCount | millionFormat}})</el-button>
+              <el-button icon="el-icon-s-comment">评论({{dynamicMes.commentCount | millionFormat}})</el-button>
             </div>
             <div class="list_babel">
               标签：
                 <div class="tags"
                      v-bind:key="index"
-                  v-for="(item, index) in playListInt.tags">
+                  v-for="(item, index) in playListMes.tags">
                   <el-tag type="info"
                           size="mini">{{item}}</el-tag>
                 </div>
@@ -57,19 +62,19 @@
         <div class="list_bd">
           <div class="list_bd_title">
             <h3>歌曲列表</h3>
-            <span class="song_count">{{playListInt.trackCount}}首歌</span>
+            <span class="song_count">{{playListMes.trackCount}}首歌</span>
             <div class="play_count">
               播放：
-              <strong>{{playListInt.playCount}}</strong>次
+              <strong>{{dynamicMes.playCount}}</strong>次
             </div>
           </div>
-          <el-table :data="listShow"
-                      size="mini"
-                      :cell-style="{padding: '0'}"
-                      :row-style="{height:'30px',fontSize: '12px'}"
-                      :header-cell-style="headerStyle"
-                      :stripe="true"
-              style="width: 638px">
+          <el-table :data="songList"
+                    size="mini"
+                    :cell-style="{padding: '0'}"
+                    :row-style="{height:'30px',fontSize: '12px'}"
+                    :header-cell-style="headerStyle"
+                    :stripe="true"
+                    style="width: 638px">
               <el-table-column
                 type="index"
                 align="center"
@@ -119,7 +124,7 @@
                     <i class="el-icon-link"></i>
                     <i class="el-icon-download"></i>
                     <i class="el-icon-delete" @click="deleteSong(scope.row)"
-                    v-if="playListInt.creator.userId == userId"></i>
+                    v-if="playListMes.creator.userId == userId"></i>
                   </div>
                 </template>
               </el-table-column>
@@ -160,6 +165,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Comment from '../commons/Comment.vue'
 export default {
   components: {
@@ -179,72 +185,121 @@ export default {
         borderBottom: '1px solid #d6d6d6',
         background: '-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#F0F0F0))'
       },
+      playListMes: { // 歌单信息
+        // name: '',
+        // coverImgUrl: '',
+        // description: '',
+        creator: { // 不写会报错无法找到参数，原因未可知
+          userId: '',
+          nickname: '',
+          avatarUrl: ''
+        }
+        // createTime: '',
+        // subscribedCount: '',
+        // tags: [],
+        // trackCount: ''
+      },
+      intro: [],
+      introIf: false,
+      introDiv: {},
+      dynamicMes: {}, // 歌单动态详情信息 commentCount,playCount,shareCount
       allId: [], // 歌曲的所有id
-      listShow: [], // 要展示的列表
+      songList: [], // 展示的歌曲列表信息
       pageSize: 20, // 每页显示的个数
       pageCount: 0, // 总页数
       pageCurrent: 1, // 当前页数
-      playListInt: {},
-      introDiv: {},
-      listDynamic: {}, // 歌单详情动态部分 commentCount,playCount,shareCount
       search: '',
-      listImgUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-      intro: [],
-      introIf: false
+      listImgUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     }
   },
+  created () {
+    this.id = this.listid
+    this.userImg = window.sessionStorage.getItem('userImg')
+    this.userId = window.sessionStorage.getItem('userId')
+    this.getMes()
+    this.getDynamicMes()
+    this.getList()
+    this.$bus.$on('show', id => {
+      this.id = id
+      this.getMes()
+      this.getDynamicMes()
+      this.getList()
+    })
+  },
+  mounted () {
+  },
   methods: {
+    // 获取歌单信息
+    async getMes () {
+      const { data: res } = await axios.get('playlist/detail', { params: { id: this.id } })
+      if (res.code !== 200) {
+        return this.$message.error('获取歌单信息失败')
+      }
+      //
+      this.playListMes.name = res.playlist.name
+      this.playListMes.coverImgUrl = res.playlist.coverImgUrl
+      this.playListMes.description = res.playlist.description
+      this.playListMes.creator = res.playlist.creator
+      this.playListMes.createTime = res.playlist.createTime
+      this.playListMes.subscribedCount = res.playlist.subscribedCount
+      this.playListMes.tags = res.playlist.tags
+      this.playListMes.trackCount = res.playlist.trackCount
+      //
+      for (const item of res.playlist.trackIds) {
+        this.allId.push(item.id)
+      }
+      const count = this.playListMes.trackCount
+      this.pageCount = (count % this.pageSize > 0) ? (parseInt(count / this.pageSize) + 1) : parseInt(count / this.pageSize)
+      this.putIntro()
+    },
+    // 获取动态信息
+    async getDynamicMes () {
+      const { data: res } = await axios.get('playlist/detail/dynamic', { params: { id: this.id } })
+      if (res.code !== 200) return
+      this.dynamicMes = res
+    },
+    // 按页获取歌曲列表
     async getList () {
       const start = (this.pageCurrent - 1) * this.pageSize
       const { data: res } = await this.$http.get('playlist/track/all', { params: { id: this.id, limit: this.pageSize, offset: start } })
       if (res.code !== 200) {
         this.$message.error('获取歌单列表失败')
       }
-      this.listShow = res.songs
-    },
-    async getListInfo () {
-      this.allId = []
-      const { data: res } = await this.$http.get('playlist/detail', { params: { id: this.id } })
-      const { data: counts } = await this.$http.get('playlist/detail/dynamic', { params: { id: this.id } })
-      if (res.code !== 200) {
-        console.log(res)
-        this.$message.error('获取歌单信息失败')
-      }
-      for (const item of res.playlist.trackIds) {
-        this.allId.push(item.id)
-      }
-      this.pageCount = (this.allId.length % this.pageSize > 0) ? (parseInt(this.allId.length / this.pageSize) + 1) : parseInt(this.allId.length / this.pageSize)
-      this.listDynamic = counts
-      this.playListInt = res.playlist
-      this.putIntro()
+      this.songList = res.songs
     },
     pageChange (newPage) {
       this.pageCurrent = newPage
       this.getList()
     },
+    // 播放歌曲
     playSong (id) {
       this.$bus.$emit('playMusic', id)
     },
-    toSongPage (id) {
-      this.$router.push({ name: 'song', params: { id: id } })
-    },
-    // 展开介绍
-    expandIntro () {
-      this.intro = this.playListInt.description.split('\n')
-      this.introIf = false
-    },
-    // 收起介绍
-    putIntro () {
-      this.intro = this.playListInt.description.split('\n', 5)
-      this.introIf = true
+    // 播放歌单所有歌曲
+    playAll () {
+      this.$bus.$emit('playMusic', this.allId[0])
+      this.$bus.$emit('add', this.allId)
     },
     // 歌曲加入播放列表
     plus (data) {
       this.$bus.$emit('add', [data.id])
     },
     // 歌单加入播放列表
-    plusList () {
+    plusAll () {
       this.$bus.$emit('add', this.allId)
+    },
+    toSongPage (id) {
+      this.$router.push({ name: 'song', params: { id: id } })
+    },
+    // 展开介绍
+    expandIntro () {
+      this.intro = this.playListMes.description.split('\n')
+      this.introIf = false
+    },
+    // 收起介绍
+    putIntro () {
+      this.intro = this.playListMes.description.split('\n', 5)
+      this.introIf = true
     },
     // 歌单中删除歌曲
     async deleteSong (data) {
@@ -261,25 +316,12 @@ export default {
       console.log(res)
     }
   },
-  created () {
-    this.id = this.listid
-    this.userImg = window.sessionStorage.getItem('userImg')
-    this.userId = window.sessionStorage.getItem('userId')
-    this.getList()
-    this.getListInfo()
-    this.$bus.$on('show', id => {
-      this.id = id
-      this.getList()
-      this.getListInfo()
-    })
-  },
-  mounted () {
-  },
   watch: {
     listid (val) {
       this.id = val
       this.getList()
-      this.getListInfo()
+      this.getMes()
+      this.getDynamicMes()
     }
   },
   computed: {

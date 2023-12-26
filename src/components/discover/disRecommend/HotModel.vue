@@ -9,7 +9,8 @@
                     <img src="@/assets/img/listenIcon.png">
                     <a>{{item.playCount | millionFormat}}</a>
                   </div>
-                    <svg class="icon" aria-hidden="true"
+                    <svg class="icon" @click.stop="PlayPlaylist(item.id)"
+                         aria-hidden="true"
                          id="bofang">
                       <use xlink:href="#icon-bofang-01"></use>
                     </svg>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -43,6 +45,26 @@ export default {
       for (let i = 0; i < ras.result.length; i++) {
         this.hotList.push(ras.result[i])
       }
+    },
+    async PlayPlaylist (id) {
+      const { data: res } = await axios.get('/playlist/detail', { params: { id: id } })
+      if (res.code !== 200) {
+        return this.$message.error('获取歌曲列表失败 请重试')
+      }
+      const idList = []
+      for (let i = 0; i < res.playlist.trackIds.length; i++) {
+        idList.push(res.playlist.trackIds[i].id)
+      }
+      /**
+       * 解决add music太多时无法获取到musicUrl问题办法：
+       * 方法一: 延迟一秒播放音乐
+       * 方法二: 先播放第一首音乐，再添加整首歌单的音乐
+       * **/
+      // 添加到播放列表并开始播放
+      // this.$bus.$emit('add', idList)
+      // setTimeout(() => this.$bus.$emit('playMusic', idList[0]), 1000)
+      this.$bus.$emit('playMusic', idList[0])
+      this.$bus.$emit('add', idList)
     }
   }
 
